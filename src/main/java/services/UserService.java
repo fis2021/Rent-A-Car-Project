@@ -1,5 +1,8 @@
 package services;
 
+import exceptions.UsernameDoesNotExistException;
+import exceptions.WrongPasswordException;
+import exceptions.WrongRoleException;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 import exceptions.UsernameAlreadyExistsException;
@@ -18,7 +21,7 @@ public class UserService {
 
     public static void initDatabase() {
         Nitrite database = Nitrite.builder()
-                .filePath(getPathToFile("registration-example.db").toFile())
+                .filePath(getPathToFile("user_database.db").toFile())
                 .openOrCreate("test", "test");
 
         userRepository = database.getRepository(User.class);
@@ -57,5 +60,43 @@ public class UserService {
         return md;
     }
 
+    public static void checkUserCredentials(String username,String password,String role) throws UsernameDoesNotExistException, WrongPasswordException, WrongRoleException {
+        int oku=0,okp=0,okr=0;
+        for(User user : userRepository.find()){
+            if(Objects.equals(username,user.getUsername())) {
+                oku = 1;
+                if(Objects.equals(role,user.getRole()))
+                    okr = 1;
+            }
+            if(Objects.equals(encodePassword(username,password),user.getPassword()))
+                okp = 1;
+        }
+        if( oku == 0 )
+            throw new UsernameDoesNotExistException(username);
+        if( okr == 0 )
+            throw new WrongRoleException(role);
+        if ( okp == 0 )
+            throw new WrongPasswordException();
+
+    }
+
+    public static String getLoggedUser(String username){
+        for (User user : userRepository.find()) {
+            if (Objects.equals(username, user.getUsername()))
+                return username;
+        }
+        return "";
+    }
+
+    public static String getUserRole(String username){
+        for (User user : userRepository.find()) {
+            if (Objects.equals(username, user.getUsername()))
+                if(Objects.equals(user.getRole(),"Client"))
+                    return "Client";
+                else
+                    return "Admin";
+        }
+        return "";
+    }
 
 }

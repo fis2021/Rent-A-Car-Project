@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0"
+            prefWidth="599.0" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.LoginController">
+    <Label layoutX="157.0" layoutY="156.0" text="Username:"/>
+    <TextField fx:id="usernameField" layoutX="262.0" layoutY="152.0"/>
+    <Label layoutX="159.0" layoutY="213.0" text="Password:"/>
+    <PasswordField fx:id="passwordField" layoutX="262.0" layoutY="209.0"/>
+    <Label layoutX="185.0" layoutY="271.0" text="Role:"/>
+    <ChoiceBox fx:id="role" layoutX="262.0" layoutY="267.0" prefWidth="150.0"/>
+    <Text fx:id="loginUsernameMessage" layoutX="125.0" layoutY="361.0" text="  "/>
+    <Button layoutX="260.0" layoutY="382.0" onAction="#goBackToRegisterScene" text="Don't have an account?"/>
+    <Button layoutX="315.0" layoutY="315.0" onAction="#handleLoginAction" text="Login"/>
+
+</AnchorPane>
