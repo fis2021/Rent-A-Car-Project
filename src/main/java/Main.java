@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.CarService;
 import services.FileSystemService;
 import services.UserService;
 
@@ -15,9 +16,21 @@ public class Main extends Application {
     {
         initDirectory();
         UserService.initDatabase();
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
+
+
+        CarService.initDatabase();
+        //CarService.addCar("bmw", 125000, "Timisoara", 10);
+        //CarService.addCar("VW", 175000, "Timisoara", 10);
+        //CarService.addCar("Ford", 323000, "Timisoara", 9);
+        //CarService.addCar("VW", 285000, "Timisoara", 9);
+
+        CarService.proba();
+
+
+
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("Rent A Car");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 600, 460));
         primaryStage.show();
     }
 
