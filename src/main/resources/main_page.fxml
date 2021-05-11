@@ -6,11 +6,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.MainPageController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" prefHeight="400" prefWidth="600"
+          vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal"
+          fx:controller="controllers.MainPageController">
 
-    <Label text="Merge!!!"></Label>
+    <Label text="Oras: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ChoiceBox fx:id="orase" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-</AnchorPane>
+    <Label text="Marca: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+    <ChoiceBox fx:id="marci" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+    <Label text="Min Km: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+    <TextField fx:id="kilometri" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+
+    <Button onAction="#handleSearchAction" text="Cauta" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+
+    <TableView fx:id="tableView" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="7">
+        <columns>
+            <TableColumn text="Oras">
+                <cellValueFactory><PropertyValueFactory property="oras" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Marca">
+                <cellValueFactory><PropertyValueFactory property="marca" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Kilometri">
+                <cellValueFactory><PropertyValueFactory property="kilometri" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Poza">
+                <cellValueFactory><PropertyValueFactory property="image" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+</GridPane>
