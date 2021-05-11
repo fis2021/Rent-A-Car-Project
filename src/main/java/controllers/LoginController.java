@@ -41,7 +41,7 @@ public class LoginController {
             Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("main_page.fxml"));
             Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
             window.setTitle("Rent a Car");
-            window.setScene(new Scene(mainPage, 600, 460));
+            window.setScene(new Scene(mainPage, 800, 600));
             window.show();
 
         }
