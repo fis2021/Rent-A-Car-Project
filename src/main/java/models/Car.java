@@ -10,15 +10,15 @@ public class Car
     private int kilometri;
     private String oras;
     private int rating;
+    private String imagePath;
 
-    private static int idCount = 0;
-
-    public Car(String marca, int kilometri, String oras, int rating) {
-        this.id = idCount++;
+    public Car(int id, String marca, int kilometri, String oras, int rating, String imagePath) {
+        this.id = id;
         this.marca = marca;
         this.kilometri = kilometri;
         this.oras = oras;
         this.rating = rating;
+        this.imagePath = imagePath;
     }
 
     public Car() {
@@ -54,9 +54,21 @@ public class Car
         this.oras = oras;
     }
 
-    public int getRating() {return rating; }
+    public int getRating() {
+        return rating;
+    }
 
-    public void getRating(int rating) {this.rating=rating;}
+    public void setRating(int rating) {
+        this.rating=rating;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     @Override
     public boolean equals(Object o)
