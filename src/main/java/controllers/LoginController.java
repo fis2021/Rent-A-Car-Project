@@ -38,10 +38,11 @@ public class LoginController {
     public void handleLoginAction(javafx.event.ActionEvent MainPage) throws Exception {
         try {
             UserService.checkUserCredentials(usernameField.getText(), passwordField.getText(), (String) role.getValue());
+            UserService.setActiveUser(usernameField.getText());
             Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("main_page.fxml"));
             Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
             window.setTitle("Rent a Car");
-            window.setScene(new Scene(mainPage, 600, 460));
+            window.setScene(new Scene(mainPage, 1024, 600));
             window.show();
 
         }

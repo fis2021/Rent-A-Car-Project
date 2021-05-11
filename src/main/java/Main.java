@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import services.CarService;
 import services.FileSystemService;
 import services.UserService;
+import services.CarService;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,17 +17,19 @@ public class Main extends Application {
     {
         initDirectory();
         UserService.initDatabase();
-
-
         CarService.initDatabase();
-        //CarService.addCar("bmw", 125000, "Timisoara", 10);
-        //CarService.addCar("VW", 175000, "Timisoara", 10);
-        //CarService.addCar("Ford", 323000, "Timisoara", 9);
-        //CarService.addCar("VW", 285000, "Timisoara", 9);
 
-        CarService.proba();
-
-
+        /*
+        CarService.addCar("bmw", 125000, "Timisoara", 10, "test.png");
+        CarService.addCar("VW", 175000, "Timisoara", 10, "test.png");
+        CarService.addCar("Ford", 323000, "Timisoara", 9, "test.png");
+        CarService.addCar("VW", 285000, "Timisoara", 9, "test2.png");
+        CarService.addCar("bmw", 125000, "Bucuresti", 10, "test.png");
+        CarService.addCar("VW", 175000, "Iasi", 10, "test.png");
+        CarService.addCar("Ford", 323000, "Bucuresti", 9, "test.png");
+        CarService.addCar("VW", 285000, "Cluj", 9, "test.png");
+        CarService.addCar("Lada", 2000000, "Vladivostok", 1, "test.png");
+         */
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("Rent A Car");

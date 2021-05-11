@@ -6,11 +6,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.MainPageController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" prefHeight="400" prefWidth="600"
+          vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal"
+          fx:controller="controllers.MainPageController">
 
-    <Label text="Merge!!!"></Label>
+    <Label text="Oras: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ChoiceBox fx:id="orase" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-</AnchorPane>
+    <Label text="Marca: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+    <ChoiceBox fx:id="marci" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+    <Label text="Min Km: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+    <TextField fx:id="kilometri" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+
+    <Button onAction="#handleSearchAction" text="Cauta" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+
+    <TableView fx:id="tableView" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="7">
+        <columns>
+            <TableColumn text="Oras">
+                <cellValueFactory><PropertyValueFactory property="oras" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Marca">
+                <cellValueFactory><PropertyValueFactory property="marca" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Kilometri">
+                <cellValueFactory><PropertyValueFactory property="kilometri" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Poza" prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="image" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+
+    <GridPane fx:id="doarAdminAdaugare" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="7" alignment="center" hgap="10">
+        <Label text="Marca: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="marcaDeAdaugat" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Oras: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <TextField fx:id="orasDeAdaugat" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        <Label text="Km: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+        <TextField fx:id="kmDeAdaugat" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+        <Label text="Poza: " GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+        <TextField fx:id="pozaDeAdaugat" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="0"/>
+        <Button text="Browse" onAction="#handleBrowseForPicture" GridPane.columnIndex="8" GridPane.rowIndex="0"/>
+        <Button text="Adaugare masina" onAction="#handleAddCar" GridPane.columnIndex="9" GridPane.rowIndex="0"/>
+    </GridPane>
+    <GridPane fx:id="doarAdminStergere" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="7" hgap="10">
+        <Label text="Id: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="idDeSters" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+    </GridPane>
+</GridPane>
