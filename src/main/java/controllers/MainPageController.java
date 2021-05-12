@@ -1,10 +1,12 @@
 package controllers;
 
+import exceptions.CarDoesNotExistException;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import models.Car;
 import models.CarView;
 import services.CarService;
@@ -54,6 +56,15 @@ public class MainPageController
     private Button butonAdaugare;
 
     @FXML
+    private TextField idDeSters;
+
+    @FXML
+    private Button butonStergere;
+
+    @FXML
+    private Label warning;
+
+    @FXML
     public void initialize()
     {
         orase.getItems().addAll(CarService.getOrase());
@@ -70,12 +81,18 @@ public class MainPageController
 
         boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
         butonAdaugare.setDisable(isDisabled);
+        butonStergere.setDisable(idDeSters.getText().isBlank());
     }
 
     public void keyReleased()
     {
         boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
         butonAdaugare.setDisable(isDisabled);
+    }
+
+    public void keyReleasedId()
+    {
+        butonStergere.setDisable(idDeSters.getText().isBlank());
     }
 
     @FXML
@@ -106,6 +123,31 @@ public class MainPageController
         marci.getItems().clear();
         marci.getItems().addAll(CarService.getMarci());
         marci.getSelectionModel().selectFirst();
+    }
+
+    @FXML
+    public void handleDeleteCar()
+    {
+        int id = -1;
+
+        try
+        {
+            id = Integer.parseInt(idDeSters.getText());
+        }
+        catch (Exception e)
+        {
+            warning.setText("Id-ul " + idDeSters.getText() + " este invalid");
+            return;
+        }
+
+        try
+        {
+            CarService.deleteCarById(id);
+        }
+        catch (CarDoesNotExistException ex)
+        {
+            warning.setText("Id-ul " + idDeSters.getText() + " nu exista");
+        }
     }
 
     @FXML

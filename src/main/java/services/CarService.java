@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.CarDoesNotExistException;
 import models.Car;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
@@ -70,6 +71,26 @@ public class CarService
         }
 
         return cars;
+    }
+
+    public static void deleteCarById(int id) throws CarDoesNotExistException
+    {
+        Car carToDelete = null;
+
+        for (Car car : carRepository.find())
+        {
+            if (car.getId() == id)
+            {
+                carToDelete = car;
+            }
+        }
+
+        if (carToDelete == null)
+        {
+            throw new CarDoesNotExistException();
+        }
+
+        carRepository.remove(carToDelete);
     }
 
     private static int getLastId()
