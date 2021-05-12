@@ -2,6 +2,8 @@ package models;
 
 import org.dizitart.no2.objects.Id;
 
+import java.util.LinkedList;
+
 public class Car
 {
     @Id
@@ -9,16 +11,20 @@ public class Car
     private String marca;
     private int kilometri;
     private String oras;
-    private int rating;
+    private double rating;
+    private int numberOfRates;
     private String imagePath;
+    protected LinkedList<String> usersWhoGaveFeedback;
 
-    public Car(int id, String marca, int kilometri, String oras, int rating, String imagePath) {
+    public Car(int id, String marca, int kilometri, String oras, double rating, int numberOfRates, String imagePath, LinkedList<String> usersWhoGaveFeedback) {
         this.id = id;
         this.marca = marca;
         this.kilometri = kilometri;
         this.oras = oras;
         this.rating = rating;
+        this.numberOfRates = numberOfRates;
         this.imagePath = imagePath;
+        this.usersWhoGaveFeedback = usersWhoGaveFeedback;
     }
 
     public Car() {
@@ -54,12 +60,20 @@ public class Car
         this.oras = oras;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating=rating;
+    }
+
+    public void setNumberOfRates(int numberOfRates) {
+        this.numberOfRates=numberOfRates;
+    }
+
+    public int getNumberOfRates() {
+        return numberOfRates;
     }
 
     public String getImagePath() {
@@ -68,6 +82,14 @@ public class Car
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public LinkedList<String> getUsersWhoGaveFeedback() {
+        return usersWhoGaveFeedback;
+    }
+
+    public void setUsersWhoGaveFeedback (LinkedList<String> usersWhoGaveFeedback) {
+        this.usersWhoGaveFeedback = usersWhoGaveFeedback;
     }
 
     @Override

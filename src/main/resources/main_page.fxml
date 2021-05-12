@@ -22,7 +22,12 @@
 
     <Button onAction="#handleSearchAction" text="Cauta" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
 
-    <TableView fx:id="tableView" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="7">
+    <Separator orientation="VERTICAL" GridPane.columnIndex="7" GridPane.rowIndex="0"/>
+
+    <TextField fx:id="rating" onKeyReleased="#ratingReleasedOrCarSelected" prefWidth="30.0" GridPane.columnIndex="8" GridPane.rowIndex="0"/>
+    <Button fx:id="rateButton" onAction="#handleRateAction" text="Rate" GridPane.columnIndex="9" GridPane.rowIndex="0"/>
+
+    <TableView fx:id="tableView" onMouseClicked="#ratingReleasedOrCarSelected" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="10">
         <columns>
             <TableColumn text="Id">
                 <cellValueFactory><PropertyValueFactory property="id" />
@@ -44,10 +49,14 @@
                 <cellValueFactory><PropertyValueFactory property="image" />
                 </cellValueFactory>
             </TableColumn>
+            <TableColumn text="Rating" prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="rating" />
+                </cellValueFactory>
+            </TableColumn>
         </columns>
     </TableView>
 
-    <GridPane fx:id="doarAdminAdaugare" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="7" alignment="center" hgap="10">
+    <GridPane fx:id="doarAdminAdaugare" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="10" alignment="center" hgap="10">
         <Label text="Marca: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <TextField fx:id="marcaDeAdaugat" prefWidth="150.0" onKeyReleased="#keyReleased" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
         <Label text="Oras: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
@@ -59,10 +68,10 @@
         <Button text="Browse" onAction="#handleBrowseForPicture" GridPane.columnIndex="8" GridPane.rowIndex="0"/>
         <Button text="Adaugare masina" fx:id="butonAdaugare" onAction="#handleAddCar" GridPane.columnIndex="9" GridPane.rowIndex="0"/>
     </GridPane>
-    <GridPane fx:id="doarAdminStergere" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="7" hgap="10">
+    <GridPane fx:id="doarAdminStergere" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="10" hgap="10">
         <Label text="Id: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <TextField fx:id="idDeSters" onKeyReleased="#keyReleasedId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Button fx:id="butonStergere" onAction="#handleDeleteCar" text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-        <Label fx:id="warning" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="7"/>
+        <Label fx:id="warning" GridPane.columnIndex="9" GridPane.rowIndex="2" GridPane.columnSpan="7"/>
     </GridPane>
 </GridPane>
