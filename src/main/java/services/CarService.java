@@ -65,7 +65,7 @@ public class CarService
 
         for (Car car : carRepository.find())
         {
-            if (car.getOras().equals(oras) && car.getMarca().equals(marca))
+            if ((car.getOras().equals(oras) || oras.equals("All")) && (car.getMarca().equals(marca) || marca.equals("All")))
             {
                 cars.add(car);
             }

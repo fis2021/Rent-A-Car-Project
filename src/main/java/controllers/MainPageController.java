@@ -73,9 +73,11 @@ public class MainPageController
     @FXML
     public void initialize()
     {
+        orase.getItems().add("All");
         orase.getItems().addAll(CarService.getOrase());
         orase.getSelectionModel().selectFirst();
 
+        marci.getItems().add("All");
         marci.getItems().addAll(CarService.getMarci());
         marci.getSelectionModel().selectFirst();
 
