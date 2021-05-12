@@ -51,6 +51,9 @@ public class MainPageController
     private TextField pozaDeAdaugat;
 
     @FXML
+    private Button butonAdaugare;
+
+    @FXML
     public void initialize()
     {
         orase.getItems().addAll(CarService.getOrase());
@@ -62,6 +65,17 @@ public class MainPageController
         boolean isAdmin = UserService.getActiveUserRole().equals("Admin");
         doarAdminAdaugare.setVisible(isAdmin);
         doarAdminStergere.setVisible(isAdmin);
+
+        pozaDeAdaugat.setDisable(true);
+
+        boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        butonAdaugare.setDisable(isDisabled);
+    }
+
+    public void keyReleased()
+    {
+        boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        butonAdaugare.setDisable(isDisabled);
     }
 
     @FXML
@@ -70,6 +84,7 @@ public class MainPageController
         ObservableList<CarView> data = tableView.getItems();
         LinkedList<Car> cars = CarService.getCarsByFilter(orase.getSelectionModel().getSelectedItem().toString(), marci.getSelectionModel().getSelectedItem().toString());
 
+        data.clear();
         for (Car car : cars)
         {
             CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getRating(), car.getImagePath());
@@ -104,5 +119,8 @@ public class MainPageController
         Path temp = Files.copy(pictureFile.toPath(), Paths.get(System.getProperty("user.dir"), "src\\main\\resources", pictureFile.getName()), StandardCopyOption.REPLACE_EXISTING);
 
         pozaDeAdaugat.setText(pictureFile.getName());
+
+        boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        butonAdaugare.setDisable(isDisabled);
     }
 }
