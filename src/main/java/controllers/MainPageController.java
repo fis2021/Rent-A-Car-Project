@@ -116,7 +116,29 @@ public class MainPageController
     public void handleSearchAction()
     {
         ObservableList<CarView> data = tableView.getItems();
-        LinkedList<Car> cars = CarService.getCarsByFilter(orase.getSelectionModel().getSelectedItem().toString(), marci.getSelectionModel().getSelectedItem().toString());
+
+        int km = 0;
+
+        try
+        {
+            km = Integer.parseInt(kilometri.getText());
+        }
+        catch (Exception e)
+        {
+            warning.setText("Campul \"Km\" este invalid!");
+            return;
+        }
+
+        if (km < 0)
+        {
+            warning.setText("Numarul de km trebuie sa fie > 0");
+            return;
+        }
+
+        LinkedList<Car> cars = CarService.getCarsByFilter(
+                orase.getSelectionModel().getSelectedItem().toString(),
+                marci.getSelectionModel().getSelectedItem().toString(),
+                km);
 
         data.clear();
         for (Car car : cars)

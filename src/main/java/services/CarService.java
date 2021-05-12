@@ -59,13 +59,13 @@ public class CarService
         return marci;
     }
 
-    public static LinkedList<Car> getCarsByFilter(String oras, String marca)
+    public static LinkedList<Car> getCarsByFilter(String oras, String marca, int km)
     {
         LinkedList<Car> cars = new LinkedList<Car>();
 
         for (Car car : carRepository.find())
         {
-            if ((car.getOras().equals(oras) || oras.equals("All")) && (car.getMarca().equals(marca) || marca.equals("All")))
+            if ((car.getOras().equals(oras) || oras.equals("All")) && (car.getMarca().equals(marca) || marca.equals("All")) && car.getKilometri() <= km)
             {
                 cars.add(car);
             }
