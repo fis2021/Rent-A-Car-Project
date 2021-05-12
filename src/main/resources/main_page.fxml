@@ -61,7 +61,8 @@
     </GridPane>
     <GridPane fx:id="doarAdminStergere" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="7" hgap="10">
         <Label text="Id: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="idDeSters" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Button text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <TextField fx:id="idDeSters" onKeyReleased="#keyReleasedId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button fx:id="butonStergere" onAction="#handleDeleteCar" text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Label fx:id="warning" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="7"/>
     </GridPane>
 </GridPane>
