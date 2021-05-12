@@ -19,6 +19,7 @@ public class Main extends Application {
         UserService.initDatabase();
         CarService.initDatabase();
 
+        /*
         CarService.addCar("bmw", 125000, "Timisoara", 10, "test.png");
         CarService.addCar("VW", 175000, "Timisoara", 10, "test.png");
         CarService.addCar("Ford", 323000, "Timisoara", 9, "test.png");
@@ -28,6 +29,9 @@ public class Main extends Application {
         CarService.addCar("Ford", 323000, "Bucuresti", 9, "test.png");
         CarService.addCar("VW", 285000, "Cluj", 9, "test.png");
         CarService.addCar("Lada", 2000000, "Vladivostok", 1, "test.png");
+
+         */
+
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("Rent A Car");

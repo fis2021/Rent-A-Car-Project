@@ -17,13 +17,17 @@
     <Label text="Marca: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
     <ChoiceBox fx:id="marci" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
 
-    <Label text="Min Km: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+    <Label text="Max Km: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
     <TextField fx:id="kilometri" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
 
     <Button onAction="#handleSearchAction" text="Cauta" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
 
     <TableView fx:id="tableView" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="7">
         <columns>
+            <TableColumn text="Id">
+                <cellValueFactory><PropertyValueFactory property="id" />
+                </cellValueFactory>
+            </TableColumn>
             <TableColumn text="Oras">
                 <cellValueFactory><PropertyValueFactory property="oras" />
                 </cellValueFactory>
@@ -36,10 +40,28 @@
                 <cellValueFactory><PropertyValueFactory property="kilometri" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Poza">
+            <TableColumn text="Poza" prefWidth="100">
                 <cellValueFactory><PropertyValueFactory property="image" />
                 </cellValueFactory>
             </TableColumn>
         </columns>
     </TableView>
+
+    <GridPane fx:id="doarAdminAdaugare" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="7" alignment="center" hgap="10">
+        <Label text="Marca: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="marcaDeAdaugat" prefWidth="150.0" onKeyReleased="#keyReleased" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Oras: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <TextField fx:id="orasDeAdaugat" onKeyReleased="#keyReleased" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        <Label text="Km: " GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+        <TextField fx:id="kmDeAdaugat" onKeyReleased="#keyReleased" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+        <Label text="Poza: " GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+        <TextField fx:id="pozaDeAdaugat" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="0"/>
+        <Button text="Browse" onAction="#handleBrowseForPicture" GridPane.columnIndex="8" GridPane.rowIndex="0"/>
+        <Button text="Adaugare masina" fx:id="butonAdaugare" onAction="#handleAddCar" GridPane.columnIndex="9" GridPane.rowIndex="0"/>
+    </GridPane>
+    <GridPane fx:id="doarAdminStergere" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="7" hgap="10">
+        <Label text="Id: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="idDeSters" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+    </GridPane>
 </GridPane>

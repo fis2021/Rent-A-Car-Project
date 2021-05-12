@@ -19,6 +19,13 @@ public class UserService {
 
     private static ObjectRepository<User> userRepository;
 
+    private static String activeUser;
+
+    public static void setActiveUser(String user)
+    {
+        activeUser = user;
+    }
+
     public static void initDatabase() {
         Nitrite database = Nitrite.builder()
                 .filePath(getPathToFile("user_database.db").toFile())
@@ -88,9 +95,9 @@ public class UserService {
         return "";
     }
 
-    public static String getUserRole(String username){
+    public static String getActiveUserRole(){
         for (User user : userRepository.find()) {
-            if (Objects.equals(username, user.getUsername()))
+            if (Objects.equals(activeUser, user.getUsername()))
                 if(Objects.equals(user.getRole(),"Client"))
                     return "Client";
                 else
