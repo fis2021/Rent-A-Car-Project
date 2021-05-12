@@ -87,12 +87,9 @@ public class UserService {
 
     }
 
-    public static String getLoggedUser(String username){
-        for (User user : userRepository.find()) {
-            if (Objects.equals(username, user.getUsername()))
-                return username;
-        }
-        return "";
+    public static String getActiveUserName()
+    {
+        return activeUser;
     }
 
     public static String getActiveUserRole(){

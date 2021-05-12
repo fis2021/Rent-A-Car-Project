@@ -2,6 +2,7 @@ package services;
 
 import exceptions.CarDoesNotExistException;
 import models.Car;
+import models.CarView;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
@@ -23,9 +24,9 @@ public class CarService
         carRepository = database.getRepository(Car.class);
     }
 
-    public static void addCar(String marca, int kilometri, String oras, int rating, String imagePath)
+    public static void addCar(String marca, int kilometri, String oras, String imagePath)
     {
-        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, rating, imagePath));
+        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, 0.0, 0, imagePath, new LinkedList<String>()));
     }
 
     public static LinkedList<String> getOrase()
@@ -58,13 +59,13 @@ public class CarService
         return marci;
     }
 
-    public static LinkedList<Car> getCarsByFilter(String oras, String marca)
+    public static LinkedList<Car> getCarsByFilter(String oras, String marca, int km)
     {
         LinkedList<Car> cars = new LinkedList<Car>();
 
         for (Car car : carRepository.find())
         {
-            if (car.getOras().equals(oras) && car.getMarca().equals(marca))
+            if ((car.getOras().equals(oras) || oras.equals("All")) && (car.getMarca().equals(marca) || marca.equals("All")) && car.getKilometri() <= km)
             {
                 cars.add(car);
             }
@@ -91,6 +92,21 @@ public class CarService
         }
 
         carRepository.remove(carToDelete);
+    }
+
+    public static void updateDataBase(CarView carToUpdate)
+    {
+        for (Car car : carRepository.find())
+        {
+            if (car.getId() == carToUpdate.getId())
+            {
+                car.setRating(carToUpdate.getRating());
+                car.setNumberOfRates(carToUpdate.getNumberOfRates());
+                car.setUsersWhoGaveFeedback(carToUpdate.getUsersWhoGaveFeedback());
+                carRepository.update(car);
+                return;
+            }
+        }
     }
 
     private static int getLastId()

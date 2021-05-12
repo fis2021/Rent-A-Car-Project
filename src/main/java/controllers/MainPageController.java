@@ -65,11 +65,19 @@ public class MainPageController
     private Label warning;
 
     @FXML
+    private TextField rating;
+
+    @FXML
+    private Button rateButton;
+
+    @FXML
     public void initialize()
     {
+        orase.getItems().add("All");
         orase.getItems().addAll(CarService.getOrase());
         orase.getSelectionModel().selectFirst();
 
+        marci.getItems().add("All");
         marci.getItems().addAll(CarService.getMarci());
         marci.getSelectionModel().selectFirst();
 
@@ -79,9 +87,12 @@ public class MainPageController
 
         pozaDeAdaugat.setDisable(true);
 
-        boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
-        butonAdaugare.setDisable(isDisabled);
+        boolean isAddButtonDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        butonAdaugare.setDisable(isAddButtonDisabled);
         butonStergere.setDisable(idDeSters.getText().isBlank());
+
+        boolean isRateButtonDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() != null);
+        rateButton.setDisable(isRateButtonDisabled);
     }
 
     public void keyReleased()
@@ -95,18 +106,49 @@ public class MainPageController
         butonStergere.setDisable(idDeSters.getText().isBlank());
     }
 
+    public void ratingReleasedOrCarSelected()
+    {
+        boolean isDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() == null);
+        rateButton.setDisable(isDisabled);
+    }
+
     @FXML
     public void handleSearchAction()
     {
         ObservableList<CarView> data = tableView.getItems();
-        LinkedList<Car> cars = CarService.getCarsByFilter(orase.getSelectionModel().getSelectedItem().toString(), marci.getSelectionModel().getSelectedItem().toString());
+
+        int km = 0;
+
+        try
+        {
+            km = Integer.parseInt(kilometri.getText());
+        }
+        catch (Exception e)
+        {
+            warning.setText("Campul \"Km\" este invalid!");
+            return;
+        }
+
+        if (km < 0)
+        {
+            warning.setText("Numarul de km trebuie sa fie > 0");
+            return;
+        }
+
+        LinkedList<Car> cars = CarService.getCarsByFilter(
+                orase.getSelectionModel().getSelectedItem().toString(),
+                marci.getSelectionModel().getSelectedItem().toString(),
+                km);
 
         data.clear();
         for (Car car : cars)
         {
-            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getRating(), car.getImagePath());
+            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getUsersWhoGaveFeedback());
             data.add(carView);
         }
+
+        boolean isDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() == null);
+        rateButton.setDisable(isDisabled);
     }
 
     @FXML
@@ -114,7 +156,7 @@ public class MainPageController
     {
         int kilometri = Integer.parseInt(kmDeAdaugat.getText());
 
-        CarService.addCar(marcaDeAdaugat.getText(), kilometri, orasDeAdaugat.getText(), 0, pozaDeAdaugat.getText());
+        CarService.addCar(marcaDeAdaugat.getText(), kilometri, orasDeAdaugat.getText(), pozaDeAdaugat.getText());
 
         orase.getItems().clear();
         orase.getItems().addAll(CarService.getOrase());
@@ -158,11 +200,64 @@ public class MainPageController
 
         File pictureFile = fileChooser.showOpenDialog(orasDeAdaugat.getScene().getWindow());
 
-        Path temp = Files.copy(pictureFile.toPath(), Paths.get(System.getProperty("user.dir"), "src\\main\\resources", pictureFile.getName()), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(pictureFile.toPath(), Paths.get(System.getProperty("user.dir"), "src\\main\\resources", pictureFile.getName()), StandardCopyOption.REPLACE_EXISTING);
 
         pozaDeAdaugat.setText(pictureFile.getName());
 
         boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
         butonAdaugare.setDisable(isDisabled);
+    }
+
+    @FXML
+    public void handleRateAction()
+    {
+        CarView selectedCar = tableView.getSelectionModel().getSelectedItem();
+        int rate = 0;
+
+        try
+        {
+            rate = Integer.parseInt(rating.getText());
+        }
+        catch (Exception e)
+        {
+            warning.setText("Invalid rating!");
+            return;
+        }
+
+        if (rate < 0 || rate > 10)
+        {
+            warning.setText("Rating must be between 0 and 10!");
+            return;
+        }
+
+        if (selectedCar.getUsersWhoGaveFeedback().contains(UserService.getActiveUserName())) {
+            warning.setText("Car already rated by this user!");
+            return;
+        }
+
+        if (selectedCar.getNumberOfRates() == 0)
+        {
+            selectedCar.setNumberOfRates(1);
+            selectedCar.setRating(rate);
+        }
+        else
+        {
+            int oldNumberOfRates = selectedCar.getNumberOfRates();
+            selectedCar.setNumberOfRates(oldNumberOfRates+1);
+            int newNumberOfRates = selectedCar.getNumberOfRates();
+
+            double oldRating = selectedCar.getRating();
+            double newRating = oldRating + ((rate - oldRating)) / (double) newNumberOfRates;
+            selectedCar.setRating(newRating);
+        }
+
+        selectedCar.addUserWhoGaveFeedback(UserService.getActiveUserName());
+
+        // refresh list after rating
+        ObservableList<CarView> data = tableView.getItems();
+        data.remove(selectedCar);
+        data.add(selectedCar);
+
+        CarService.updateDataBase(selectedCar);
     }
 }
