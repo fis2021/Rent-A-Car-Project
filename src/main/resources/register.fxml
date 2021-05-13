@@ -10,8 +10,7 @@
     <padding>
         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
     </padding>
-    <Text id="title-text" text="Rent A Car" GridPane.columnIndex="0" GridPane.columnSpan="2"
-          GridPane.rowIndex="0"/>
+    <Text id="title-text" text="Rent A Car" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
     <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
@@ -21,13 +20,29 @@
 
     <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-    <Label text="Role:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
-    <ChoiceBox fx:id="role" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Label text="Phone number:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+    <TextField fx:id="phoneNumberField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <Label text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+
+    <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <Label text="CNP:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+
+    <TextField fx:id="cnpField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <Label text="Role:" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+
+    <ChoiceBox fx:id="role" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
     </ChoiceBox>
 
-    <Text fx:id="registrationMessage" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
+    <Text fx:id="registrationMessage" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
         <Button onAction="#handleRegisterAction" text="Register"/>
     </HBox>
 </GridPane>

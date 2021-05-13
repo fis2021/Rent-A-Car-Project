@@ -7,11 +7,19 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String email;
+    private String phoneNumber;
+    private String address;
+    private String cnp;
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, String role, String email, String phoneNumber, String address, String cnp) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.cnp = cnp;
     }
 
     public User() {
@@ -41,6 +49,38 @@ public class User {
         this.role = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCnp() {
+        return cnp;
+    }
+
+    public void setCnp(String cnp) {
+        this.cnp = cnp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,9 +88,10 @@ public class User {
 
         User user = (User) o;
 
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return role != null ? role.equals(user.role) : user.role == null;
+        if (user == null) return false;
+        if (!cnp.equals(user.cnp) || !email.equals(user.email)) return false;
+
+        return true;
     }
 
     @Override
