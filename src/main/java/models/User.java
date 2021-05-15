@@ -11,6 +11,7 @@ public class User {
     private String phoneNumber;
     private String address;
     private String cnp;
+    private boolean isBlocked;
 
     public User(String username, String password, String role, String email, String phoneNumber, String address, String cnp) {
         this.username = username;
@@ -20,6 +21,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.cnp = cnp;
+        this.isBlocked = false;
     }
 
     public User() {
@@ -80,6 +82,10 @@ public class User {
     public void setCnp(String cnp) {
         this.cnp = cnp;
     }
+
+    public boolean getIsBlocked() { return isBlocked; }
+
+    public void setIsBlocked(boolean isBlocked) { this.isBlocked = isBlocked; }
 
     @Override
     public boolean equals(Object o) {
