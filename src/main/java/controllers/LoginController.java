@@ -15,7 +15,7 @@ import services.UserService;
 public class LoginController {
 
     @FXML
-    private Text loginUsernameMessage;
+    private Text warningMessage;
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -35,6 +35,13 @@ public class LoginController {
     public void handleLoginAction(javafx.event.ActionEvent MainPage) throws Exception {
         try {
             UserService.checkUserCredentials(emailField.getText(), passwordField.getText(), (String) role.getValue());
+
+            if (UserService.checkIfUserIsBlocked(emailField.getText()))
+            {
+                warningMessage.setText("Your account has been blocked by an administrator.");
+                return;
+            }
+
             UserService.setActiveUser(emailField.getText());
             Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("main_page.fxml"));
             Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
@@ -54,7 +61,7 @@ public class LoginController {
          */
         catch (Exception e)
         {
-            loginUsernameMessage.setText(e.getMessage());
+            warningMessage.setText(e.getMessage());
         }
     }
     public void goBackToRegisterScene(javafx.event.ActionEvent login)throws Exception{
