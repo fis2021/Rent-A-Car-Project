@@ -11,16 +11,20 @@ public class Car
     private String marca;
     private int kilometri;
     private String oras;
+    private int pret;
+    private String consum;
     private double rating;
     private int numberOfRates;
     private String imagePath;
     protected LinkedList<String> usersWhoGaveFeedback;
 
-    public Car(int id, String marca, int kilometri, String oras, double rating, int numberOfRates, String imagePath, LinkedList<String> usersWhoGaveFeedback) {
+    public Car(int id, String marca, int kilometri, String oras, int pret, String consum, double rating, int numberOfRates, String imagePath, LinkedList<String> usersWhoGaveFeedback) {
         this.id = id;
         this.marca = marca;
         this.kilometri = kilometri;
         this.oras = oras;
+        this.pret = pret;
+        this.consum = consum;
         this.rating = rating;
         this.numberOfRates = numberOfRates;
         this.imagePath = imagePath;
@@ -59,6 +63,14 @@ public class Car
     public void setOras(String oras) {
         this.oras = oras;
     }
+
+    public int getPret() { return pret;}
+
+    public void setPret(int pret) {this.pret = pret;}
+
+    public String getConsum() { return consum; }
+
+    public void setConsum() { this.consum = consum;}
 
     public double getRating() {
         return rating;

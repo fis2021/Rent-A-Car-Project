@@ -24,9 +24,9 @@ public class CarService
         carRepository = database.getRepository(Car.class);
     }
 
-    public static void addCar(String marca, int kilometri, String oras, String imagePath)
+    public static void addCar(String marca, int kilometri, String oras, int pret, String consum, String imagePath)
     {
-        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, 0.0, 0, imagePath, new LinkedList<String>()));
+        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, pret, consum, 0.0, 0, imagePath, new LinkedList<String>()));
     }
 
     public static LinkedList<String> getOrase()
@@ -59,13 +59,13 @@ public class CarService
         return marci;
     }
 
-    public static LinkedList<Car> getCarsByFilter(String oras, String marca, int km)
+    public static LinkedList<Car> getCarsByFilter(String oras, String marca, int km, int pret)
     {
         LinkedList<Car> cars = new LinkedList<Car>();
 
         for (Car car : carRepository.find())
         {
-            if ((car.getOras().equals(oras) || oras.equals("All")) && (car.getMarca().equals(marca) || marca.equals("All")) && car.getKilometri() <= km)
+            if ((car.getOras().equals(oras) || oras.equals("All")) && (car.getMarca().equals(marca) || marca.equals("All")) && car.getKilometri() <= km && car.getPret() <= pret)
             {
                 cars.add(car);
             }

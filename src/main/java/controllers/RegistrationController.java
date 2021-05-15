@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.EmailAlreadyExistsException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,7 +10,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import exceptions.UsernameAlreadyExistsException;
 import javafx.stage.Stage;
 import services.UserService;
 
@@ -57,7 +57,7 @@ public class RegistrationController {
             window.setTitle("Login");
             window.setScene(new Scene(root1, 600, 460));
             window.show();
-        } catch (UsernameAlreadyExistsException e) {
+        } catch (EmailAlreadyExistsException e) {
             registrationMessage.setText(e.getMessage());
         }
     }
