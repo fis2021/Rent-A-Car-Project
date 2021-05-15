@@ -9,9 +9,9 @@ public class CarView extends Car
 {
     private ImageView image;
 
-    public CarView(int id, String marca, int kilometri, String oras, double rating, int numberOfRates, String imagePath, LinkedList<String> usersWhoGaveFeedback)
+    public CarView(int id, String marca, int kilometri, String oras, int pret, String consum, double rating, int numberOfRates, String imagePath, LinkedList<String> usersWhoGaveFeedback)
     {
-        super(id, marca, kilometri, oras, rating, numberOfRates, imagePath, usersWhoGaveFeedback);
+        super(id, marca, kilometri, oras, pret, consum, rating, numberOfRates, imagePath, usersWhoGaveFeedback);
         image = new ImageView(new Image(getImagePath()));
     }
 

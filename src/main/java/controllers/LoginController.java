@@ -10,9 +10,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import exceptions.UsernameDoesNotExistException;
-import exceptions.WrongPasswordException;
-import exceptions.WrongRoleException;
 import services.UserService;
 
 public class LoginController {
@@ -22,7 +19,7 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
     @FXML
     private ChoiceBox role;
 
@@ -37,8 +34,11 @@ public class LoginController {
     @FXML
     public void handleLoginAction(javafx.event.ActionEvent MainPage) throws Exception {
         try {
-            UserService.checkUserCredentials(usernameField.getText(), passwordField.getText(), (String) role.getValue());
-            UserService.setActiveUser(usernameField.getText());
+
+            String abc = emailField.getText();
+
+            UserService.checkUserCredentials(emailField.getText(), passwordField.getText(), (String) role.getValue());
+            UserService.setActiveUser(emailField.getText());
             Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("main_page.fxml"));
             Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
             window.setTitle("Rent a Car");

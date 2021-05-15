@@ -1,11 +1,11 @@
 package services;
 
-import exceptions.UsernameDoesNotExistException;
+import exceptions.EmailAlreadyExistsException;
+import exceptions.EmailDoesNotExistException;
 import exceptions.WrongPasswordException;
 import exceptions.WrongRoleException;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
-import exceptions.UsernameAlreadyExistsException;
 import models.User;
 
 import java.nio.charset.StandardCharsets;
@@ -19,11 +19,17 @@ public class UserService {
 
     private static ObjectRepository<User> userRepository;
 
-    private static String activeUser;
+    private static User activeUser;
 
-    public static void setActiveUser(String user)
+    public static void setActiveUser(String email)
     {
-        activeUser = user;
+        for (User user : userRepository.find())
+        {
+            if (user.getEmail().equals(email))
+            {
+                activeUser = user;
+            }
+        }
     }
 
     public static void initDatabase() {
@@ -34,15 +40,15 @@ public class UserService {
         userRepository = database.getRepository(User.class);
     }
 
-    public static void addUser(String username, String password, String role) throws UsernameAlreadyExistsException {
-        checkUserDoesNotAlreadyExist(username);
-        userRepository.insert(new User(username, encodePassword(username, password), role));
+    public static void addUser(String username, String password, String role, String email, String phoneNumber, String address, String cnp) throws EmailAlreadyExistsException {
+        checkEmailDoesNotAlreadyExist(email);
+        userRepository.insert(new User(username, encodePassword(email, password), role, email, phoneNumber, address, cnp));
     }
 
-    private static void checkUserDoesNotAlreadyExist(String username) throws UsernameAlreadyExistsException {
+    private static void checkEmailDoesNotAlreadyExist(String email) throws EmailAlreadyExistsException {
         for (User user : userRepository.find()) {
-            if (Objects.equals(username, user.getUsername()))
-                throw new UsernameAlreadyExistsException(username);
+            if (Objects.equals(email, user.getEmail()))
+                throw new EmailAlreadyExistsException(email);
         }
     }
 
@@ -67,19 +73,19 @@ public class UserService {
         return md;
     }
 
-    public static void checkUserCredentials(String username,String password,String role) throws UsernameDoesNotExistException, WrongPasswordException, WrongRoleException {
+    public static void checkUserCredentials(String email,String password,String role) throws EmailDoesNotExistException, WrongPasswordException, WrongRoleException {
         int oku=0,okp=0,okr=0;
         for(User user : userRepository.find()){
-            if(Objects.equals(username,user.getUsername())) {
+            if(Objects.equals(email,user.getEmail())) {
                 oku = 1;
                 if(Objects.equals(role,user.getRole()))
                     okr = 1;
             }
-            if(Objects.equals(encodePassword(username,password),user.getPassword()))
+            if(Objects.equals(encodePassword(email,password),user.getPassword()))
                 okp = 1;
         }
         if( oku == 0 )
-            throw new UsernameDoesNotExistException(username);
+            throw new EmailDoesNotExistException(email);
         if( okr == 0 )
             throw new WrongRoleException(role);
         if ( okp == 0 )
@@ -87,20 +93,8 @@ public class UserService {
 
     }
 
-    public static String getActiveUserName()
+    public static User getActiveUser()
     {
         return activeUser;
     }
-
-    public static String getActiveUserRole(){
-        for (User user : userRepository.find()) {
-            if (Objects.equals(activeUser, user.getUsername()))
-                if(Objects.equals(user.getRole(),"Client"))
-                    return "Client";
-                else
-                    return "Admin";
-        }
-        return "";
-    }
-
 }

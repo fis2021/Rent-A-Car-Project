@@ -32,6 +32,9 @@ public class MainPageController
     private TextField kilometri;
 
     @FXML
+    private TextField pret;
+
+    @FXML
     private TableView<CarView> tableView;
 
     @FXML
@@ -45,6 +48,12 @@ public class MainPageController
 
     @FXML
     private TextField orasDeAdaugat;
+
+    @FXML
+    private TextField pretDeAdaugat;
+
+    @FXML
+    private TextField consumDeAdaugat;
 
     @FXML
     private TextField kmDeAdaugat;
@@ -81,13 +90,19 @@ public class MainPageController
         marci.getItems().addAll(CarService.getMarci());
         marci.getSelectionModel().selectFirst();
 
-        boolean isAdmin = UserService.getActiveUserRole().equals("Admin");
+        boolean isAdmin = UserService.getActiveUser().getRole().equals("Admin");
         doarAdminAdaugare.setVisible(isAdmin);
         doarAdminStergere.setVisible(isAdmin);
 
         pozaDeAdaugat.setDisable(true);
 
-        boolean isAddButtonDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        boolean isAddButtonDisabled =
+                marcaDeAdaugat.getText().isBlank() ||
+                        orasDeAdaugat.getText().isBlank() ||
+                        kmDeAdaugat.getText().isBlank() ||
+                        pozaDeAdaugat.getText().isBlank() ||
+                        pretDeAdaugat.getText().isBlank() ||
+                        consumDeAdaugat.getText().isBlank();
         butonAdaugare.setDisable(isAddButtonDisabled);
         butonStergere.setDisable(idDeSters.getText().isBlank());
 
@@ -97,7 +112,13 @@ public class MainPageController
 
     public void keyReleased()
     {
-        boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        boolean isDisabled =
+                marcaDeAdaugat.getText().isBlank() ||
+                        orasDeAdaugat.getText().isBlank() ||
+                        kmDeAdaugat.getText().isBlank() ||
+                        pozaDeAdaugat.getText().isBlank() ||
+                        pretDeAdaugat.getText().isBlank() ||
+                        consumDeAdaugat.getText().isBlank();
         butonAdaugare.setDisable(isDisabled);
     }
 
@@ -118,6 +139,7 @@ public class MainPageController
         ObservableList<CarView> data = tableView.getItems();
 
         int km = 0;
+        int price = 0;
 
         try
         {
@@ -129,21 +151,37 @@ public class MainPageController
             return;
         }
 
+        try
+        {
+            price = Integer.parseInt(pret.getText());
+        }
+        catch (Exception e)
+        {
+            warning.setText("Campul \"Pret\" este invalid!");
+            return;
+        }
+
         if (km < 0)
         {
             warning.setText("Numarul de km trebuie sa fie > 0");
             return;
         }
 
+        if (price < 0)
+        {
+            warning.setText("Pretul trebuie sa fie > 0");
+            return;
+        }
+
         LinkedList<Car> cars = CarService.getCarsByFilter(
                 orase.getSelectionModel().getSelectedItem().toString(),
                 marci.getSelectionModel().getSelectedItem().toString(),
-                km);
+                km, price);
 
         data.clear();
         for (Car car : cars)
         {
-            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getUsersWhoGaveFeedback());
+            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getPret(), car.getConsum(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getUsersWhoGaveFeedback());
             data.add(carView);
         }
 
@@ -154,9 +192,43 @@ public class MainPageController
     @FXML
     public void handleAddCar()
     {
-        int kilometri = Integer.parseInt(kmDeAdaugat.getText());
+        int kilometri;
 
-        CarService.addCar(marcaDeAdaugat.getText(), kilometri, orasDeAdaugat.getText(), pozaDeAdaugat.getText());
+        try
+        {
+            kilometri = Integer.parseInt(kmDeAdaugat.getText());
+        }
+        catch (Exception e1)
+        {
+            warning.setText("Kilometrii introdusi nu sunt valizi!");
+            return;
+        }
+
+        if (kilometri < 0)
+        {
+            warning.setText("Kilometrii introdusi trebuie sa fie >0!");
+            return;
+        }
+
+        int price;
+
+        try
+        {
+            price = Integer.parseInt(pretDeAdaugat.getText());
+        }
+        catch (Exception e2)
+        {
+            warning.setText("Pretul introdus nu este valid!");
+            return;
+        }
+
+        if (price <= 0)
+        {
+            warning.setText("Pretul introdus trebuie sa fie >0!");
+            return;
+        }
+
+        CarService.addCar(marcaDeAdaugat.getText(), kilometri, orasDeAdaugat.getText(), price, consumDeAdaugat.getText(), pozaDeAdaugat.getText());
 
         orase.getItems().clear();
         orase.getItems().addAll(CarService.getOrase());
@@ -204,7 +276,13 @@ public class MainPageController
 
         pozaDeAdaugat.setText(pictureFile.getName());
 
-        boolean isDisabled = marcaDeAdaugat.getText().isBlank() || orasDeAdaugat.getText().isBlank() || kmDeAdaugat.getText().isBlank() || pozaDeAdaugat.getText().isBlank();
+        boolean isDisabled =
+                marcaDeAdaugat.getText().isBlank() ||
+                        orasDeAdaugat.getText().isBlank() ||
+                        kmDeAdaugat.getText().isBlank() ||
+                        pozaDeAdaugat.getText().isBlank() ||
+                        pretDeAdaugat.getText().isBlank() ||
+                        consumDeAdaugat.getText().isBlank();
         butonAdaugare.setDisable(isDisabled);
     }
 
@@ -230,7 +308,7 @@ public class MainPageController
             return;
         }
 
-        if (selectedCar.getUsersWhoGaveFeedback().contains(UserService.getActiveUserName())) {
+        if (selectedCar.getUsersWhoGaveFeedback().contains(UserService.getActiveUser().getUsername())) {
             warning.setText("Car already rated by this user!");
             return;
         }
@@ -251,7 +329,7 @@ public class MainPageController
             selectedCar.setRating(newRating);
         }
 
-        selectedCar.addUserWhoGaveFeedback(UserService.getActiveUserName());
+        selectedCar.addUserWhoGaveFeedback(UserService.getActiveUser().getCnp());
 
         // refresh list after rating
         ObservableList<CarView> data = tableView.getItems();

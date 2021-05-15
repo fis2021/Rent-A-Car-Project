@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.EmailAlreadyExistsException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,7 +10,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import exceptions.UsernameAlreadyExistsException;
 import javafx.stage.Stage;
 import services.UserService;
 
@@ -24,6 +24,14 @@ public class RegistrationController {
     @FXML
     private TextField usernameField;
     @FXML
+    private TextField emailField;
+    @FXML
+    private TextField phoneNumberField;
+    @FXML
+    private TextField addressField;
+    @FXML
+    private TextField cnpField;
+    @FXML
     private ChoiceBox role;
 
     @FXML
@@ -34,7 +42,14 @@ public class RegistrationController {
     @FXML
     public void handleRegisterAction(javafx.event.ActionEvent login) throws IOException {
         try {
-            UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue());
+            UserService.addUser(
+                    usernameField.getText(),
+                    passwordField.getText(),
+                    (String) role.getValue(),
+                    emailField.getText(),
+                    phoneNumberField.getText(),
+                    addressField.getText(),
+                    cnpField.getText());
             registrationMessage.setText("Account created successfully!");
 
             Parent root1 = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
@@ -42,7 +57,7 @@ public class RegistrationController {
             window.setTitle("Login");
             window.setScene(new Scene(root1, 600, 460));
             window.show();
-        } catch (UsernameAlreadyExistsException e) {
+        } catch (EmailAlreadyExistsException e) {
             registrationMessage.setText(e.getMessage());
         }
     }
