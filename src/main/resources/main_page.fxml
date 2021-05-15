@@ -29,8 +29,9 @@
 
     <TextField fx:id="rating" onKeyReleased="#ratingReleasedOrCarSelected" prefWidth="30.0" GridPane.columnIndex="10" GridPane.rowIndex="0"/>
     <Button fx:id="rateButton" onAction="#handleRateAction" text="Rate" GridPane.columnIndex="11" GridPane.rowIndex="0"/>
+    <Button fx:id="rentButton" onAction="#handleRentAction" text="Rent" GridPane.columnIndex="12" GridPane.rowIndex="0"></Button>
 
-    <TableView fx:id="tableView" onMouseClicked="#ratingReleasedOrCarSelected" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="12">
+    <TableView fx:id="tableView" onMouseClicked="#ratingReleasedOrCarSelected" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="13">
         <columns>
             <TableColumn text="Id">
                 <cellValueFactory><PropertyValueFactory property="id" />
@@ -64,10 +65,14 @@
                 <cellValueFactory><PropertyValueFactory property="rating" />
                 </cellValueFactory>
             </TableColumn>
+            <TableColumn text="Availability" prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="availability" />
+                </cellValueFactory>
+            </TableColumn>
         </columns>
     </TableView>
 
-    <GridPane fx:id="doarAdminAdaugare" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="12" alignment="center" hgap="10">
+    <GridPane fx:id="doarAdminAdaugare" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="13" alignment="center" hgap="10">
         <Label text="Marca: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
         <TextField fx:id="marcaDeAdaugat" prefWidth="100.0" onKeyReleased="#keyReleased" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
         <Label text="Oras: " GridPane.columnIndex="2" GridPane.rowIndex="0"/>
@@ -88,5 +93,5 @@
         <TextField fx:id="idDeSters" onKeyReleased="#keyReleasedId" prefWidth="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Button fx:id="butonStergere" onAction="#handleDeleteCar" text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
     </GridPane>
-    <Label fx:id="warning" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="12"/>
+    <Label fx:id="warning" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="13"/>
 </GridPane>

@@ -34,9 +34,6 @@ public class LoginController {
     @FXML
     public void handleLoginAction(javafx.event.ActionEvent MainPage) throws Exception {
         try {
-
-            String abc = emailField.getText();
-
             UserService.checkUserCredentials(emailField.getText(), passwordField.getText(), (String) role.getValue());
             UserService.setActiveUser(emailField.getText());
             Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("main_page.fxml"));
