@@ -1,9 +1,6 @@
 package services;
 
-import exceptions.EmailAlreadyExistsException;
-import exceptions.EmailDoesNotExistException;
-import exceptions.WrongPasswordException;
-import exceptions.WrongRoleException;
+import exceptions.*;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 import models.User;
@@ -93,8 +90,40 @@ public class UserService {
 
     }
 
+    public static boolean checkIfUserIsBlocked(String email)
+    {
+        for(User user : userRepository.find())
+        {
+            if (user.getEmail().equals(email) && user.getIsBlocked() == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static User getActiveUser()
     {
         return activeUser;
+    }
+
+    public static void blockUser(String email) throws EmailDoesNotExistException, CannotBlockAdminException {
+
+        for(User user : userRepository.find())
+        {
+            if (user.getEmail().equals(email))
+            {
+                if (user.getRole().equals("Admin"))
+                {
+                    throw new CannotBlockAdminException(email);
+                }
+                user.setIsBlocked(true);
+                userRepository.update(user);
+                return;
+            }
+        }
+
+        throw new EmailDoesNotExistException(email);
     }
 }

@@ -87,6 +87,9 @@
         <Label text="Id: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <TextField fx:id="idDeSters" onKeyReleased="#keyReleasedId" prefWidth="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Button fx:id="butonStergere" onAction="#handleDeleteCar" text="Stergere masina" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Separator orientation="VERTICAL" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        <TextField fx:id="emailDeSters" onKeyReleased="#keyReleasedEmail" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+        <Button fx:id="butonBlocare" onAction="#handleBlockUser" text="Blocheaza utilizator" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
     </GridPane>
     <Label fx:id="warning" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="12"/>
 </GridPane>

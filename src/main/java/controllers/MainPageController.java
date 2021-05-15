@@ -1,6 +1,8 @@
 package controllers;
 
+import exceptions.CannotBlockAdminException;
 import exceptions.CarDoesNotExistException;
+import exceptions.EmailDoesNotExistException;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -71,6 +73,12 @@ public class MainPageController
     private Button butonStergere;
 
     @FXML
+    private TextField emailDeSters;
+
+    @FXML
+    private Button butonBlocare;
+
+    @FXML
     private Label warning;
 
     @FXML
@@ -108,6 +116,7 @@ public class MainPageController
 
         boolean isRateButtonDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() != null);
         rateButton.setDisable(isRateButtonDisabled);
+        butonBlocare.setDisable(emailDeSters.getText().isBlank());
     }
 
     public void keyReleased()
@@ -126,6 +135,8 @@ public class MainPageController
     {
         butonStergere.setDisable(idDeSters.getText().isBlank());
     }
+
+    public void keyReleasedEmail() { butonBlocare.setDisable(emailDeSters.getText().isBlank());}
 
     public void ratingReleasedOrCarSelected()
     {
@@ -261,6 +272,19 @@ public class MainPageController
         catch (CarDoesNotExistException ex)
         {
             warning.setText("Id-ul " + idDeSters.getText() + " nu exista");
+        }
+    }
+
+    @FXML
+    public void handleBlockUser()
+    {
+        try
+        {
+            UserService.blockUser(emailDeSters.getText());
+        }
+        catch (EmailDoesNotExistException | CannotBlockAdminException e)
+        {
+            warning.setText(e.getMessage());
         }
     }
 
