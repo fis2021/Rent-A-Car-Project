@@ -131,7 +131,7 @@ public class CarService
         }
     }
 
-    private static int getLastId()
+    public static int getLastId()
     {
         var maxId = 0;
 
