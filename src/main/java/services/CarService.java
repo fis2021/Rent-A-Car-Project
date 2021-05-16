@@ -14,6 +14,7 @@ import static services.FileSystemService.getPathToFile;
 public class CarService
 {
     private static ObjectRepository<Car> carRepository;
+    public static Car selectedCar;
 
     public static void initDatabase()
     {

@@ -380,6 +380,7 @@ public class MainPageController
     @FXML
     public void handleRentAction(javafx.event.ActionEvent MainPage) throws Exception
     {
+        CarService.selectedCar = tableView.getSelectionModel().getSelectedItem();
         Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("payment.fxml"));
         Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
         window.setTitle("Payment");

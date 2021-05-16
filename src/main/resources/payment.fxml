@@ -10,9 +10,9 @@
           vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal"
           fx:controller="controllers.PaymentController">
     <Label text="Numar de zile: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <TextField fx:id="numarDeZile" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <TextField fx:id="numarDeZile" onKeyReleased="#nrZileSauSoferUpdated" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
     <Label fx:id="cuFaraSoferLabel" text="Cu/Fara Sofer: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <CheckBox fx:id="cuSofer" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <CheckBox fx:id="cuSofer" onMouseClicked="#nrZileSauSoferUpdated" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
     <Label text="Numar card: " GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <TextField fx:id="numarCard" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
     <Label text="Nume detinator card: " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
@@ -26,4 +26,5 @@
     <Label text="Suma de plata: " GridPane.columnIndex="0" GridPane.rowIndex="7"/>
     <TextField fx:id="sumaDePlata" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
     <Button fx:id="payButton" onAction="#handlePayAction" text="Pay" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+    <Label fx:id="warning" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 </GridPane>
