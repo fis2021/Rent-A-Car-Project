@@ -2,6 +2,7 @@ package models;
 
 import org.dizitart.no2.objects.Id;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 public class Car
@@ -18,9 +19,11 @@ public class Car
     private String imagePath;
     private boolean isAvailable;
     private String availability;
+    private Date rentDate;
+    private int rentInterval;
     protected LinkedList<String> usersWhoGaveFeedback;
 
-    public Car(int id, String marca, int kilometri, String oras, int pret, String consum, double rating, int numberOfRates, String imagePath, boolean isAvailable, LinkedList<String> usersWhoGaveFeedback) {
+    public Car(int id, String marca, int kilometri, String oras, int pret, String consum, double rating, int numberOfRates, String imagePath, boolean isAvailable, Date rentDate, int rentInterval, LinkedList<String> usersWhoGaveFeedback) {
         this.id = id;
         this.marca = marca;
         this.kilometri = kilometri;
@@ -31,7 +34,9 @@ public class Car
         this.numberOfRates = numberOfRates;
         this.imagePath = imagePath;
         this.isAvailable = isAvailable;
-        this.availability = "Available";
+        this.availability = isAvailable ? "Available" : "Unavailable";
+        this.rentDate = rentDate;
+        this.rentInterval = rentInterval;
         this.usersWhoGaveFeedback = usersWhoGaveFeedback;
     }
 
@@ -111,6 +116,14 @@ public class Car
     public String getAvailability() {return this.availability;}
 
     public void setAvailability(String availability) {this.availability = availability;}
+
+    public Date getRentDate() { return this.rentDate; }
+
+    public void setRentDate(Date rentDate) { this.rentDate = rentDate; }
+
+    public int getRentInterval() { return this.rentInterval; }
+
+    public void setRentInterval(int rentInterval) { this.rentInterval = rentInterval; }
 
     public LinkedList<String> getUsersWhoGaveFeedback() {
         return usersWhoGaveFeedback;

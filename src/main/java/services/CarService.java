@@ -6,6 +6,7 @@ import models.CarView;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
+import java.util.Date;
 import java.util.LinkedList;
 
 
@@ -14,7 +15,7 @@ import static services.FileSystemService.getPathToFile;
 public class CarService
 {
     private static ObjectRepository<Car> carRepository;
-    public static Car selectedCar;
+    public static Car lastSelectedCar;
 
     public static void initDatabase()
     {
@@ -27,7 +28,7 @@ public class CarService
 
     public static void addCar(String marca, int kilometri, String oras, int pret, String consum, String imagePath)
     {
-        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, pret, consum, 0.0, 0, imagePath, true, new LinkedList<String>()));
+        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, pret, consum, 0.0, 0, imagePath, true, null, 0, new LinkedList<String>()));
     }
 
     public static LinkedList<String> getOrase()
@@ -95,7 +96,7 @@ public class CarService
         carRepository.remove(carToDelete);
     }
 
-    public static void updateDataBase(CarView carToUpdate)
+    public static void updateDataBase(Car carToUpdate)
     {
         for (Car car : carRepository.find())
         {
@@ -104,8 +105,28 @@ public class CarService
                 car.setRating(carToUpdate.getRating());
                 car.setNumberOfRates(carToUpdate.getNumberOfRates());
                 car.setUsersWhoGaveFeedback(carToUpdate.getUsersWhoGaveFeedback());
+                car.setIsAvailable(carToUpdate.getIsAvailable());
+                car.setAvailability(carToUpdate.getAvailability());
                 carRepository.update(car);
                 return;
+            }
+        }
+    }
+
+    public static void checkIfRentHasExpired()
+    {
+        for (Car car : carRepository.find())
+        {
+            if (car.getIsAvailable() == false && car.getRentDate() != null)
+            {
+                // daca ziua inchirierii este inaintea zilei curente minus numarul de zile de inchiriere
+                // numarul de zile de inchiriere * 86400000 = pe cate milisecunde s-a inchiriat masina
+                if (car.getRentDate().compareTo(new Date(System.currentTimeMillis() - car.getRentInterval()*86400000)) <= 0)
+                {
+                    car.setRentDate(null);
+                    car.setRentInterval(0);
+                    car.setIsAvailable(true);
+                }
             }
         }
     }
