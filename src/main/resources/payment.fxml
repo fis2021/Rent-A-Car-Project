@@ -23,7 +23,7 @@
     <ChoiceBox fx:id="ani" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
     <Label text="CVC/CVV2: " GridPane.columnIndex="0" GridPane.rowIndex="6"/>
     <TextField fx:id="cvc" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-    <Label text="Suma de plata: " GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+    <Label fx:id="labelSumaDePlata" text="Suma de plata: " GridPane.columnIndex="0" GridPane.rowIndex="7"/>
     <TextField fx:id="sumaDePlata" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
     <Button fx:id="payButton" onAction="#handlePayAction" text="Pay" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
     <Label fx:id="warning" GridPane.columnIndex="1" GridPane.rowIndex="8"/>

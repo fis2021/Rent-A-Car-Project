@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Car;
 import services.CarService;
+import services.UserService;
 
 import java.io.IOException;
 
@@ -25,6 +26,9 @@ public class PaymentController
 
     @FXML
     private TextField cvc;
+
+    @FXML
+    private Label labelSumaDePlata;
 
     @FXML
     private TextField sumaDePlata;
@@ -64,6 +68,7 @@ public class PaymentController
 
         cuFaraSoferLabel.setTooltip(new Tooltip("Optiunea cu sofer va adauga 50 de euro la suma finala de plata"));
         cuSofer.setTooltip(new Tooltip("Optiunea cu sofer va adauga 50 de euro la suma finala de plata"));
+        labelSumaDePlata.setTooltip(new Tooltip("Admin-ul va avea un discount de 10%"));
     }
 
     @FXML
@@ -161,6 +166,12 @@ public class PaymentController
         }
 
         int suma = CarService.lastSelectedCar.getPret() * nrZile + (cuSofer.isSelected() ? 50 : 0);
+
+        if (UserService.getActiveUser().getRole().equals("Admin"))
+        {
+            suma = suma - (suma/10);
+        }
+
         sumaDePlata.setText(String.valueOf(suma));
     }
 }

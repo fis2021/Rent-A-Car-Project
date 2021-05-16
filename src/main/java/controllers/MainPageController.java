@@ -123,7 +123,7 @@ public class MainPageController
         boolean isRateButtonDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() != null);
         rateButton.setDisable(isRateButtonDisabled);
 
-        rentButton.setDisable(tableView.getSelectionModel().getSelectedItem() == null);
+        rentButton.setDisable(tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().getIsAvailable() == false);
 
         butonBlocare.setDisable(emailDeSters.getText().isBlank());
 
@@ -153,7 +153,7 @@ public class MainPageController
     {
         boolean isDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() == null);
         rateButton.setDisable(isDisabled);
-        rentButton.setDisable(tableView.getSelectionModel().getSelectedItem() == null);
+        rentButton.setDisable(tableView.getSelectionModel().getSelectedItem() == null || tableView.getSelectionModel().getSelectedItem().getIsAvailable() == false);
     }
 
     @FXML
