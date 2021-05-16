@@ -14,6 +14,7 @@ import static services.FileSystemService.getPathToFile;
 public class CarService
 {
     private static ObjectRepository<Car> carRepository;
+    public static Car selectedCar;
 
     public static void initDatabase()
     {
@@ -26,7 +27,7 @@ public class CarService
 
     public static void addCar(String marca, int kilometri, String oras, int pret, String consum, String imagePath)
     {
-        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, pret, consum, 0.0, 0, imagePath, new LinkedList<String>()));
+        carRepository.insert(new Car(getLastId() + 1, marca, kilometri, oras, pret, consum, 0.0, 0, imagePath, true, new LinkedList<String>()));
     }
 
     public static LinkedList<String> getOrase()

@@ -16,9 +16,11 @@ public class Car
     private double rating;
     private int numberOfRates;
     private String imagePath;
+    private boolean isAvailable;
+    private String availability;
     protected LinkedList<String> usersWhoGaveFeedback;
 
-    public Car(int id, String marca, int kilometri, String oras, int pret, String consum, double rating, int numberOfRates, String imagePath, LinkedList<String> usersWhoGaveFeedback) {
+    public Car(int id, String marca, int kilometri, String oras, int pret, String consum, double rating, int numberOfRates, String imagePath, boolean isAvailable, LinkedList<String> usersWhoGaveFeedback) {
         this.id = id;
         this.marca = marca;
         this.kilometri = kilometri;
@@ -28,6 +30,8 @@ public class Car
         this.rating = rating;
         this.numberOfRates = numberOfRates;
         this.imagePath = imagePath;
+        this.isAvailable = isAvailable;
+        this.availability = "Available";
         this.usersWhoGaveFeedback = usersWhoGaveFeedback;
     }
 
@@ -95,6 +99,18 @@ public class Car
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
+    public boolean getIsAvailable() {return isAvailable;}
+
+    public void setIsAvailable(boolean isAvailable)
+    {
+        this.isAvailable = isAvailable;
+        availability = isAvailable ? "Available" : "Unavailable";
+    }
+
+    public String getAvailability() {return this.availability;}
+
+    public void setAvailability(String availability) {this.availability = availability;}
 
     public LinkedList<String> getUsersWhoGaveFeedback() {
         return usersWhoGaveFeedback;

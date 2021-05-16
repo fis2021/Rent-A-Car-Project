@@ -5,10 +5,15 @@ import exceptions.CarDoesNotExistException;
 import exceptions.EmailDoesNotExistException;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 import models.Car;
 import models.CarView;
 import services.CarService;
@@ -88,6 +93,9 @@ public class MainPageController
     private Button rateButton;
 
     @FXML
+    private Button rentButton;
+
+    @FXML
     public void initialize()
     {
         orase.getItems().add("All");
@@ -116,7 +124,11 @@ public class MainPageController
 
         boolean isRateButtonDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() != null);
         rateButton.setDisable(isRateButtonDisabled);
+
+        rentButton.setDisable(tableView.getSelectionModel().getSelectedItem() == null);
+
         butonBlocare.setDisable(emailDeSters.getText().isBlank());
+
     }
 
     public void keyReleased()
@@ -142,6 +154,7 @@ public class MainPageController
     {
         boolean isDisabled = rating.getText().isBlank() || (tableView.getSelectionModel().getSelectedItem() == null);
         rateButton.setDisable(isDisabled);
+        rentButton.setDisable(tableView.getSelectionModel().getSelectedItem() == null);
     }
 
     @FXML
@@ -192,7 +205,7 @@ public class MainPageController
         data.clear();
         for (Car car : cars)
         {
-            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getPret(), car.getConsum(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getUsersWhoGaveFeedback());
+            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getPret(), car.getConsum(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getIsAvailable(), car.getUsersWhoGaveFeedback());
             data.add(carView);
         }
 
@@ -357,9 +370,21 @@ public class MainPageController
 
         // refresh list after rating
         ObservableList<CarView> data = tableView.getItems();
+
         data.remove(selectedCar);
         data.add(selectedCar);
 
         CarService.updateDataBase(selectedCar);
+    }
+
+    @FXML
+    public void handleRentAction(javafx.event.ActionEvent MainPage) throws Exception
+    {
+        CarService.selectedCar = tableView.getSelectionModel().getSelectedItem();
+        Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("payment.fxml"));
+        Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
+        window.setTitle("Payment");
+        window.setScene(new Scene(mainPage, 640, 480));
+        window.show();
     }
 }
