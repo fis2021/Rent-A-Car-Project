@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import models.Car;
 import services.CarService;
 
 import java.io.IOException;
@@ -74,6 +75,9 @@ public class PaymentController
             warning.setText(inputErrors);
             return;
         }
+
+        CarService.lastSelectedCar.setIsAvailable(false);
+        CarService.updateDataBase(CarService.lastSelectedCar);
 
         Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("main_page.fxml"));
         Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
@@ -156,7 +160,7 @@ public class PaymentController
             return;
         }
 
-        int suma = CarService.selectedCar.getPret() * nrZile + (cuSofer.isSelected() ? 50 : 0);
+        int suma = CarService.lastSelectedCar.getPret() * nrZile + (cuSofer.isSelected() ? 50 : 0);
         sumaDePlata.setText(String.valueOf(suma));
     }
 }

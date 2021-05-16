@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import models.Car;
 import models.CarView;
@@ -22,7 +21,6 @@ import services.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
@@ -129,6 +127,7 @@ public class MainPageController
 
         butonBlocare.setDisable(emailDeSters.getText().isBlank());
 
+        CarService.checkIfRentHasExpired();
     }
 
     public void keyReleased()
@@ -205,7 +204,7 @@ public class MainPageController
         data.clear();
         for (Car car : cars)
         {
-            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getPret(), car.getConsum(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getIsAvailable(), car.getUsersWhoGaveFeedback());
+            CarView carView = new CarView(car.getId(), car.getMarca(), car.getKilometri(), car.getOras(), car.getPret(), car.getConsum(), car.getRating(), car.getNumberOfRates(), car.getImagePath(), car.getIsAvailable(), car.getRentDate(), car.getRentInterval(), car.getUsersWhoGaveFeedback());
             data.add(carView);
         }
 
@@ -255,10 +254,12 @@ public class MainPageController
         CarService.addCar(marcaDeAdaugat.getText(), kilometri, orasDeAdaugat.getText(), price, consumDeAdaugat.getText(), pozaDeAdaugat.getText());
 
         orase.getItems().clear();
+        orase.getItems().add("All");
         orase.getItems().addAll(CarService.getOrase());
         orase.getSelectionModel().selectFirst();
 
         marci.getItems().clear();
+        marci.getItems().add("All");
         marci.getItems().addAll(CarService.getMarci());
         marci.getSelectionModel().selectFirst();
     }
@@ -345,7 +346,7 @@ public class MainPageController
             return;
         }
 
-        if (selectedCar.getUsersWhoGaveFeedback().contains(UserService.getActiveUser().getUsername())) {
+        if (selectedCar.getUsersWhoGaveFeedback().contains(UserService.getActiveUser().getCnp())) {
             warning.setText("Car already rated by this user!");
             return;
         }
@@ -380,7 +381,7 @@ public class MainPageController
     @FXML
     public void handleRentAction(javafx.event.ActionEvent MainPage) throws Exception
     {
-        CarService.selectedCar = tableView.getSelectionModel().getSelectedItem();
+        CarService.lastSelectedCar = tableView.getSelectionModel().getSelectedItem();
         Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("payment.fxml"));
         Stage window = (Stage) ((Node) MainPage.getSource()).getScene().getWindow();
         window.setTitle("Payment");
